@@ -19,9 +19,10 @@
     --line-strong: rgba(243, 236, 231, 0.28);
     --ink: #F3ECE7;
     --ink-soft: #A89C95;
-    --ink-faint: #6F6560;
+    --ink-faint: #8A7F79;
     --wine: #7A2436;
     --wine-bright: #C04D63;
+    --wine-text: #D0677D;
     --champagne: #D2B287;
     --champagne-soft: #9C8262;
     --brown: #3A2D28;
@@ -33,6 +34,7 @@
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+  [id] { scroll-margin-top: calc(88px + env(safe-area-inset-top, 0px)); }
   body {
     margin: 0;
     background: var(--bg);
@@ -42,7 +44,13 @@
     overflow-x: hidden;
   }
   a { color: inherit; text-decoration: none; }
-  :focus-visible { outline: 2px solid var(--champagne); outline-offset: 3px; border-radius: 4px; }
+  :focus-visible { outline: 3px solid var(--champagne); outline-offset: 3px; border-radius: 4px; }
+  .skip {
+    position: absolute; left: 16px; top: -100px; z-index: 100;
+    background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 8px;
+    font: 600 14px/1 var(--brand);
+  }
+  .skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
   .wrap { max-width: 1240px; margin: 0 auto; padding-inline: var(--gutter); }
 
   /* Two-tone serif headline, the signature of the reference */
@@ -100,9 +108,9 @@
   header.top.scrolled { background: rgba(12, 9, 8, .72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-color: var(--line); }
   .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 76px; }
   nav.main { display: flex; gap: 28px; }
-  nav.main a { font: 400 13.5px/1 var(--brand); color: var(--ink-soft); padding: 10px 0; transition: color 200ms ease; }
+  nav.main a { font: 400 13.5px/1 var(--brand); color: var(--ink-soft); padding: 15px 0; display: inline-flex; align-items: center; min-height: 44px; transition: color 200ms ease; }
   nav.main a:hover { color: var(--ink); }
-  .top .btn { min-height: 42px; padding: 0 18px; font-size: 13px; }
+  .top .btn { min-height: 44px; padding: 0 18px; font-size: 13px; }
   @media (max-width: 960px) { nav.main { display: none; } }
 
   /* Hero */
@@ -180,7 +188,16 @@
   }
 
   /* Region marquee */
-  .marquee { border-block: 1px solid var(--line); overflow: hidden; padding-block: 22px; }
+  .marquee { position: relative; border-block: 1px solid var(--line); overflow: hidden; padding-block: 22px; }
+  .marquee:hover .marquee-track, .marquee:focus-within .marquee-track, .marquee.paused .marquee-track, .offscreen .marquee-track { animation-play-state: paused; }
+  .marquee-toggle {
+    position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%); z-index: 2;
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--line-strong); background: var(--bg); color: var(--ink-soft);
+    display: grid; place-items: center; cursor: pointer; transition: color 200ms ease, border-color 200ms ease;
+  }
+  .marquee-toggle:hover { color: var(--champagne); border-color: var(--champagne); }
+  .marquee-toggle svg { width: 14px; height: 14px; }
   .marquee-track { display: flex; width: max-content; animation: scroll 38s linear infinite; }
   .marquee-track span {
     font: 300 clamp(20px, 2.4vw, 30px)/1 var(--serif);
@@ -214,6 +231,27 @@
   }
   .glow-card .h { font-size: clamp(30px, 4.2vw, 54px); max-width: 20ch; margin: 0 auto 30px; position: relative; }
   .glow-card .btn { position: relative; }
+
+  /* Trust signals */
+  .trust {
+    list-style: none; padding: 0; margin: clamp(40px, 6vw, 64px) 0 0;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-block: 1px solid var(--line);
+  }
+  .trust li { display: flex; align-items: center; gap: 14px; padding: 22px 20px; }
+  .trust li + li { border-left: 1px solid var(--line); }
+  .trust svg { width: 26px; height: 26px; flex: none; color: var(--champagne); }
+  .trust strong { display: block; font: 600 14px/1.3 var(--brand); }
+  .trust span { display: block; font-size: 13px; color: var(--ink-soft); }
+  @media (max-width: 900px) {
+    .trust { grid-template-columns: 1fr 1fr; }
+    .trust li:nth-child(3) { border-left: 0; }
+    .trust li:nth-child(n+3) { border-top: 1px solid var(--line); }
+  }
+  @media (max-width: 480px) {
+    .trust { grid-template-columns: 1fr; }
+    .trust li + li { border-left: 0; border-top: 1px solid var(--line); }
+  }
 
   /* Two big cards */
   .section-head { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; margin-bottom: clamp(40px, 6vw, 72px); }
@@ -279,7 +317,7 @@
     counter-reset: s; text-align: left;
   }
   .steps li { counter-increment: s; padding: 24px 22px 8px; border-left: 1px solid var(--line); }
-  .steps li::before { content: counter(s, decimal-leading-zero); display: block; font: 500 12px/1 var(--brand); letter-spacing: .12em; color: var(--wine-bright); margin-bottom: 18px; }
+  .steps li::before { content: counter(s, decimal-leading-zero); display: block; font: 500 12px/1 var(--brand); letter-spacing: .12em; color: var(--wine-text); margin-bottom: 18px; }
   .steps h3 { font: 400 22px/1.15 var(--serif); margin: 0 0 8px; }
   .steps p { margin: 0; color: var(--ink-soft); font-size: 14.5px; }
   @media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; row-gap: 16px; } }
@@ -304,6 +342,7 @@
   /* Final CTA with streaks */
   .final { position: relative; overflow: hidden; text-align: center; }
   .streaks { position: absolute; inset: 0; pointer-events: none; }
+  .offscreen .streaks i, .offscreen .tile, .offscreen .ring { animation-play-state: paused; }
   .streaks i {
     position: absolute; height: 1px; left: 0;
     background: linear-gradient(90deg, transparent, rgba(243, 236, 231, .35), transparent);
@@ -316,12 +355,14 @@
   /* Footer */
   footer.foot { background: var(--wine); color: #FBEFF1; position: relative; overflow: hidden; }
   .foot-top { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 32px; padding-block: 64px 40px; }
-  .foot h4 { font: 600 12px/1 var(--brand); letter-spacing: .16em; text-transform: uppercase; margin: 0 0 16px; color: rgba(251, 239, 241, .7); }
-  .foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 14.5px; }
+  .foot h4 { font: 600 12px/1 var(--brand); letter-spacing: .16em; text-transform: uppercase; margin: 0 0 16px; color: rgba(251, 239, 241, .82); }
+  .foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; font-size: 14.5px; }
+  .foot li { min-height: 40px; display: flex; align-items: center; }
+  .foot li a { display: inline-flex; align-items: center; min-height: 44px; }
   .foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .foot .claim { font: 300 clamp(26px, 3vw, 36px)/1.1 var(--serif); margin: 0 0 18px; max-width: 16ch; }
-  .foot .ph { color: rgba(251, 239, 241, .6); }
-  .foot-legal { border-top: 1px solid rgba(251, 239, 241, .22); padding-block: 20px; font-size: 12.5px; color: rgba(251, 239, 241, .72); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  .foot .ph { color: rgba(251, 239, 241, .82); }
+  .foot-legal { border-top: 1px solid rgba(251, 239, 241, .22); padding-block: 20px; font-size: 12.5px; color: rgba(251, 239, 241, .85); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
   .giant {
     font: 700 clamp(120px, 30vw, 440px)/0.78 var(--brand);
     letter-spacing: -0.04em;
@@ -349,6 +390,7 @@
 </head>
 <body>
 
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <header class="top" id="header">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="DKRN Deckungskonzepte Rhein-Neckar, zur Startseite">
@@ -367,6 +409,7 @@
 </header>
 
 <main id="top">
+  <span id="inhalt" tabindex="-1"></span>
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
@@ -407,7 +450,10 @@
     </div>
   </section>
 
-  <div class="marquee" aria-label="Unser Einzugsgebiet">
+  <div class="marquee" id="marquee" role="region" aria-label="Unser Einzugsgebiet">
+    <button class="marquee-toggle" id="marquee-toggle" type="button" aria-pressed="false" aria-label="Laufband anhalten">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>
+    </button>
     <div class="marquee-track">
       <span>Mannheim</span><span>Heidelberg</span><span>Ludwigshafen</span><span>Weinheim</span><span>Schwetzingen</span><span>Speyer</span><span>Worms</span><span>Sinsheim</span><span>Viernheim</span><span>Hockenheim</span>
       <span aria-hidden="true">Mannheim</span><span aria-hidden="true">Heidelberg</span><span aria-hidden="true">Ludwigshafen</span><span aria-hidden="true">Weinheim</span><span aria-hidden="true">Schwetzingen</span><span aria-hidden="true">Speyer</span><span aria-hidden="true">Worms</span><span aria-hidden="true">Sinsheim</span><span aria-hidden="true">Viernheim</span><span aria-hidden="true">Hockenheim</span>
@@ -421,6 +467,12 @@
         <h2 class="h center">Wir arbeiten für Sie,<em>nicht für eine Versicherung.</em></h2>
         <p class="lead">Als Makler sind wir an keine Gesellschaft gebunden. Wir prüfen Angebote vieler Versicherer und empfehlen nur, was zu Ihrer Lebenssituation oder Ihrem Betrieb passt.</p>
       </div>
+      <ul class="trust reveal" aria-label="Warum DKRN">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><div><strong>Unabhängig</strong><span>An keinen Versicherer gebunden</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><div><strong>Registriert</strong><span>Erlaubnis nach § 34d GewO</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16v12H4z"/><path d="M9 7V5h6v2M4 12h16"/></svg><div><strong>Abgesichert</strong><span>Mit Vermögensschaden&shy;haftpflicht</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><div><strong>Persönlich</strong><span>Ein fester Ansprechpartner</span></div></li>
+      </ul>
       <div class="glow-card reveal" id="glow">
         <h2 class="h">Ihr ganzer Versicherungsordner. <em>Ein Ansprechpartner.</em></h2>
         <a class="btn btn-light" href="#kontakt">Bestand prüfen lassen</a>
@@ -661,6 +713,28 @@
       glow.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
       glow.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
     });
+
+    // Laufband pausieren (Tastatur und Maus)
+    var marquee = document.getElementById("marquee");
+    var mToggle = document.getElementById("marquee-toggle");
+    var playIcon = '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2.5v11l9-5.5z"/></svg>';
+    var pauseIcon = mToggle.innerHTML;
+    mToggle.addEventListener("click", function () {
+      var paused = marquee.classList.toggle("paused");
+      mToggle.setAttribute("aria-pressed", String(paused));
+      mToggle.setAttribute("aria-label", paused ? "Laufband fortsetzen" : "Laufband anhalten");
+      mToggle.innerHTML = paused ? playIcon : pauseIcon;
+    });
+
+    // Animationen ausserhalb des Sichtbereichs anhalten
+    if ("IntersectionObserver" in window) {
+      var vis = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { e.target.classList.toggle("offscreen", !e.isIntersecting); });
+      });
+      [".hero", "#marquee", "#ablauf", "#kontakt"].forEach(function (sel) {
+        var el = document.querySelector(sel); if (el) vis.observe(el);
+      });
+    }
 
     // Streaks behind the final call to action
     if (!reduce) {
