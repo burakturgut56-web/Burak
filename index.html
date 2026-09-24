@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="DKRN – Studio für Marke, Web und Content.">
+<title>DKRN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper: #EDEFEA;
+    --paper-2: #E2E5DE;
+    --ink: #111413;
+    --ink-soft: #4F5752;
+    --line: #111413;
+    --accent: #2238F5;
+    --on-accent: #FFFFFF;
+    --grid: rgba(17, 20, 19, 0.07);
+    --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --gutter: clamp(16px, 4vw, 48px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0F1110;
+      --paper-2: #171A18;
+      --ink: #E6E9E3;
+      --ink-soft: #A3AAA4;
+      --line: #E6E9E3;
+      --accent: #7D8BFF;
+      --on-accent: #0F1110;
+      --grid: rgba(230, 233, 227, 0.06);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0F1110;
+    --paper-2: #171A18;
+    --ink: #E6E9E3;
+    --ink-soft: #A3AAA4;
+    --line: #E6E9E3;
+    --accent: #7D8BFF;
+    --on-accent: #0F1110;
+    --grid: rgba(230, 233, 227, 0.06);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 17px/1.55 var(--body);
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(to right, var(--grid) 1px, transparent 1px);
+    background-size: calc((100% - 2 * var(--gutter)) / 12) 100%;
+    background-position: var(--gutter) 0;
+  }
+  .wrap { max-width: 1320px; margin: 0 auto; padding-inline: var(--gutter); }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  .label {
+    font: 500 12px/1.3 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* Header */
+  header.top {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+  }
+  .top .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; min-height: 64px;
+  }
+  .logo {
+    font: 900 22px/1 var(--display);
+    font-stretch: 125%;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  nav.main { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav.main a {
+    font: 500 13px/1 var(--mono);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    text-decoration: none;
+    padding: 14px 12px;
+    border: 2px solid transparent;
+  }
+  nav.main a:hover { border-color: var(--line); }
+  nav.main a.cta { background: var(--ink); color: var(--paper); }
+  nav.main a.cta:hover { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  @media (max-width: 640px) {
+    nav.main a:not(.cta) { display: none; }
+  }
+
+  /* Hero */
+  .hero { padding-block: clamp(32px, 6vw, 72px) 0; }
+  .hero-meta {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px;
+    border-bottom: 2px solid var(--line); padding-bottom: 12px;
+  }
+  .wordmark {
+    display: flex; justify-content: space-between;
+    font-family: var(--display);
+    font-weight: 900;
+    font-stretch: 125%;
+    font-size: clamp(88px, 23vw, 330px);
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    margin: 0;
+    padding-block: 0.08em 0.04em;
+    border-bottom: 2px solid var(--line);
+    overflow: hidden;
+  }
+  .wordmark span { display: inline-block; animation: rise 700ms cubic-bezier(.2,.8,.2,1) both; }
+  .wordmark span:nth-child(2) { animation-delay: 60ms; }
+  .wordmark span:nth-child(3) { animation-delay: 120ms; }
+  .wordmark span:nth-child(4) { animation-delay: 180ms; color: var(--accent); }
+  @keyframes rise { from { transform: translateY(18%); } to { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .wordmark span { animation: none; } }
+
+  .hero-grid {
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 24px;
+    padding-block: 28px clamp(48px, 7vw, 96px);
+  }
+  .hero-grid h1 {
+    grid-column: 1 / span 7;
+    font: 700 clamp(28px, 3.6vw, 48px)/1.08 var(--display);
+    font-stretch: 88%;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero-side {
+    grid-column: 9 / span 4;
+    display: flex; flex-direction: column; gap: 20px; justify-content: space-between;
+  }
+  .hero-side p { margin: 0; color: var(--ink-soft); max-width: 42ch; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: space-between; gap: 16px;
+    min-height: 52px; padding: 0 20px;
+    background: var(--accent); color: var(--on-accent);
+    border: 2px solid var(--accent);
+    font: 600 15px/1 var(--body); text-decoration: none; cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .btn:hover { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+  @media (max-width: 860px) {
+    .hero-grid h1, .hero-side { grid-column: 1 / -1; }
+    .hero-side { margin-top: 24px; }
+  }
+
+  /* Sections */
+  section.block { border-top: 2px solid var(--line); padding-block: clamp(48px, 7vw, 96px); }
+  .block-head {
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px 24px;
+    margin-bottom: clamp(32px, 4vw, 56px);
+  }
+  .block-head .label { grid-column: 1 / span 3; padding-top: 10px; }
+  .block-head h2 {
+    grid-column: 4 / span 9;
+    font: 800 clamp(34px, 5vw, 68px)/0.98 var(--display);
+    font-stretch: 75%;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  @media (max-width: 760px) {
+    .block-head .label, .block-head h2 { grid-column: 1 / -1; }
+  }
+
+  /* Services */
+  .services {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-top: 2px solid var(--line); border-left: 2px solid var(--line);
+  }
+  .service {
+    border-right: 2px solid var(--line); border-bottom: 2px solid var(--line);
+    padding: 28px 24px 32px;
+    display: flex; flex-direction: column; gap: 14px;
+    background: var(--paper);
+    transition: background 150ms ease;
+  }
+  .service:hover { background: var(--paper-2); }
+  .service svg { width: 36px; height: 36px; color: var(--accent); }
+  .service h3 { font: 700 24px/1.1 var(--display); font-stretch: 90%; margin: 0; }
+  .service p { margin: 0; color: var(--ink-soft); }
+  .service ul { margin: auto 0 0; padding: 14px 0 0; list-style: none; border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 6px; }
+  .service li { font: 500 12px/1 var(--mono); border: 1px solid var(--line); padding: 7px 9px; }
+  @media (max-width: 960px) { .services { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px) { .services { grid-template-columns: 1fr; } }
+
+  /* Process */
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  .step {
+    counter-increment: step;
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px 24px;
+    padding-block: 24px; border-top: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step::before {
+    content: counter(step, decimal-leading-zero);
+    grid-column: 1 / span 1;
+    font: 500 14px/1 var(--mono); color: var(--accent);
+  }
+  .step h3 { grid-column: 2 / span 4; margin: 0; font: 700 clamp(22px, 2.4vw, 30px)/1.1 var(--display); font-stretch: 85%; }
+  .step p { grid-column: 7 / span 5; margin: 0; color: var(--ink-soft); max-width: 60ch; }
+  .step .dur { grid-column: 12 / span 1; text-align: right; font: 500 12px/1.3 var(--mono); color: var(--ink-soft); }
+  @media (max-width: 760px) {
+    .step { grid-template-columns: 48px 1fr; }
+    .step::before { grid-column: 1; }
+    .step h3 { grid-column: 2; }
+    .step p, .step .dur { grid-column: 2; text-align: left; }
+  }
+
+  /* Principles band */
+  .band { background: var(--ink); color: var(--paper); }
+  .band .block-head .label { color: var(--paper); opacity: .7; }
+  .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 2px solid var(--paper); }
+  .principle { padding: 24px 24px 8px 0; }
+  .principle + .principle { padding-left: 24px; border-left: 2px solid var(--paper); }
+  .principle h3 { margin: 0 0 10px; font: 800 clamp(26px, 3vw, 40px)/1 var(--display); font-stretch: 70%; text-transform: uppercase; }
+  .principle p { margin: 0; opacity: .78; max-width: 38ch; }
+  @media (max-width: 860px) {
+    .principles { grid-template-columns: 1fr; }
+    .principle, .principle + .principle { padding: 24px 0; border-left: 0; }
+    .principle + .principle { border-top: 1px solid var(--paper); }
+  }
+
+  /* Contact */
+  .contact { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+  .contact-big { grid-column: 1 / span 7; }
+  .contact-big p { margin: 0 0 24px; max-width: 46ch; color: var(--ink-soft); font-size: 19px; }
+  .mail {
+    display: flex; flex-wrap: wrap; align-items: stretch; gap: 0;
+    border: 2px solid var(--line); width: fit-content; max-width: 100%;
+  }
+  .mail output {
+    font: 600 clamp(18px, 2.4vw, 28px)/1 var(--display); font-stretch: 100%;
+    padding: 16px 20px; user-select: all; overflow-wrap: anywhere;
+  }
+  .mail button {
+    border: 0; border-left: 2px solid var(--line);
+    background: var(--ink); color: var(--paper);
+    font: 500 13px/1 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+    padding: 0 18px; min-height: 52px; cursor: pointer;
+  }
+  .mail button:hover { background: var(--accent); color: var(--on-accent); }
+  .contact-facts { grid-column: 9 / span 4; display: grid; gap: 0; align-content: start; }
+  .fact { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); }
+  .fact:last-child { border-bottom: 1px solid var(--line); }
+  .fact strong { font-weight: 600; text-align: right; }
+  @media (max-width: 860px) { .contact-big, .contact-facts { grid-column: 1 / -1; } }
+
+  footer.foot { border-top: 2px solid var(--line); padding-block: 24px 32px; }
+  .foot .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="DKRN Startseite">DKRN</a>
+    <nav class="main" aria-label="Hauptnavigation">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#haltung">Haltung</a>
+      <a class="cta" href="#kontakt">Kontakt</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-meta">
+        <span class="label">Studio für Marke, Web &amp; Content</span>
+        <span class="label">Deutschland · Projekte remote</span>
+      </div>
+      <p class="wordmark" aria-hidden="true"><span>D</span><span>K</span><span>R</span><span>N</span></p>
+      <div class="hero-grid">
+        <h1>Wir machen aus einer Idee eine Marke, die man wiedererkennt, und eine Webseite, die für sie arbeitet.</h1>
+        <div class="hero-side">
+          <p>DKRN begleitet Gründer, Selbstständige und kleine Teams vom ersten Namen bis zum fertigen Auftritt. Klar im Ausdruck, schnell geladen, einfach zu pflegen.</p>
+          <a class="btn" href="#kontakt">Projekt anfragen
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="leistungen">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="label">Leistungen</span>
+        <h2>Drei Disziplinen, ein Auftritt</h2>
+      </div>
+      <div class="services">
+        <article class="service">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 12h16M12 4v16"/></svg>
+          <h3>Markenidentität</h3>
+          <p>Logo, Farben, Schrift und Tonalität, festgehalten in einem kompakten Styleguide, den dein Team wirklich benutzt.</p>
+          <ul><li>Logo</li><li>Styleguide</li><li>Naming</li></ul>
+        </article>
+        <article class="service">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 5h18v14H3z"/><path d="M3 9h18M7 7h.01M10 7h.01"/></svg>
+          <h3>Webdesign &amp; Entwicklung</h3>
+          <p>Schnelle, barrierearme Webseiten, die auf dem Handy genauso gut funktionieren wie am Desktop.</p>
+          <ul><li>Landingpages</li><li>Webseiten</li><li>Shops</li></ul>
+        </article>
+        <article class="service">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h13"/></svg>
+          <h3>Content &amp; Social</h3>
+          <p>Texte, Bildsprache und Vorlagen für Social Media, damit jeder Beitrag nach dir aussieht.</p>
+          <ul><li>Texte</li><li>Vorlagen</li><li>Kampagnen</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="ablauf">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="label">Ablauf</span>
+        <h2>Vom ersten Gespräch zum Launch</h2>
+      </div>
+      <ol class="steps">
+        <li class="step"><h3>Kennenlernen</h3><p>Ein kurzes Gespräch über Ziel, Zielgruppe, Budget und Zeitrahmen. Danach bekommst du ein klares Angebot.</p><span class="dur">1 Tag</span></li>
+        <li class="step"><h3>Richtung finden</h3><p>Wir sammeln Referenzen und entwickeln zwei bis drei Gestaltungsrichtungen, aus denen du wählst.</p><span class="dur">1–2 Wochen</span></li>
+        <li class="step"><h3>Gestalten &amp; bauen</h3><p>Die gewählte Richtung wird zur fertigen Marke und Webseite ausgearbeitet, mit Feedbackrunden an festen Terminen.</p><span class="dur">2–4 Wochen</span></li>
+        <li class="step"><h3>Launch &amp; Übergabe</h3><p>Wir bringen alles online und übergeben Dateien, Zugänge und eine kurze Einweisung.</p><span class="dur">1 Woche</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block band" id="haltung">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="label">Haltung</span>
+        <h2>Woran wir uns halten</h2>
+      </div>
+      <div class="principles">
+        <div class="principle"><h3>Klar vor laut</h3><p>Eine Marke muss in einer Sekunde verstanden werden. Alles, was davon ablenkt, fliegt raus.</p></div>
+        <div class="principle"><h3>Schnell vor schick</h3><p>Eine Seite, die lange lädt, verliert Besucher. Performance ist Teil des Designs.</p></div>
+        <div class="principle"><h3>Deins, nicht unseres</h3><p>Du bekommst alle Dateien und Zugänge. Kein Abo, keine Abhängigkeit.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="kontakt">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="label">Kontakt</span>
+        <h2>Lass uns über dein Projekt sprechen</h2>
+      </div>
+      <div class="contact">
+        <div class="contact-big">
+          <p>Schreib uns in zwei, drei Sätzen, worum es geht. Wir antworten innerhalb von zwei Werktagen.</p>
+          <div class="mail">
+            <output id="mail-address">hallo@dkrn.de</output>
+            <button type="button" id="copy-mail">Kopieren</button>
+          </div>
+        </div>
+        <div class="contact-facts">
+          <div class="fact"><span class="label">Antwortzeit</span><strong>2 Werktage</strong></div>
+          <div class="fact"><span class="label">Sprache</span><strong>Deutsch, Englisch</strong></div>
+          <div class="fact"><span class="label">Arbeitsweise</span><strong>Remote &amp; vor Ort</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span class="label">© <span id="year">2026</span> DKRN</span>
+    <span class="label"><a href="#top">Nach oben</a></span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+  const copyBtn = document.getElementById("copy-mail");
+  copyBtn.addEventListener("click", function () {
+    const text = document.getElementById("mail-address").textContent;
+    const done = function (msg) {
+      copyBtn.textContent = msg;
+      setTimeout(function () { copyBtn.textContent = "Kopieren"; }, 1800);
+    };
+    const fallback = function () {
+      const range = document.createRange();
+      range.selectNodeContents(document.getElementById("mail-address"));
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      done("Markiert");
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done("Kopiert"); }, fallback);
+    } else {
+      fallback();
+    }
+  });
+</script>
+</body>
+</html>
